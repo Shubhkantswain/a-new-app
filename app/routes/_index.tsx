@@ -9,7 +9,7 @@ export const action = async ({ request }: { request: Request }) => {
     `myCookie=hello_remix`,
     `Path=/`,
     `Max-Age=${60 * 60 * 24}`, // 1 day
-    'HttpOnly',
+    'HttpOnly',        
     'Secure',
     'SameSite=Strict'
   ].join('; ');
@@ -25,7 +25,7 @@ export const action = async ({ request }: { request: Request }) => {
 export default function Index() {
   return (
     <div>
-      <h1>Set Cookie Example</h1>
+      <h1>Set Cookie Example see</h1>
       <Form method="post">
         <button type="submit">Set Cookie</button>
       </Form>
