@@ -16,7 +16,13 @@ export default function Index() {
   return (
     <div>
       <h1>Cookie Value:</h1>
+      <p>{myCookie}</p> jjjjjjjj
       <p>{myCookie}</p>
+      <p>{myCookie}</p>
+      <p>{myCookie}</p>
+      <p>{myCookie}</p>
+      <p>{myCookie}</p> 
+
     </div>
   );
 }
