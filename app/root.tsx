@@ -1,16 +1,34 @@
-import { json } from "@remix-run/cloudflare";
-import { useLoaderData } from "@remix-run/react";
+import { json } from "@remix-run/cloudflare";  // Note: using cloudflare import
+import { Form } from "@remix-run/react";
 
-export const loader = async () => {
-  return json({ message: "Welcome to the SSR page in Remix!" });
+export const action = async ({ request }: { request: Request }) => {
+  const headers = new Headers();
+  
+  // Create cookie string manually
+  const cookieString = [
+    `myCookie=hello_remix`,
+    `Path=/`,
+    `Max-Age=${60 * 60 * 24}`, // 1 day
+    'HttpOnly',
+    'Secure',
+    'SameSite=Strict'
+  ].join('; ');
+
+  headers.append("Set-Cookie", cookieString);
+  
+  return json(
+    { success: true, message: "Cookie set successfully!" }, 
+    { headers }
+  );
 };
 
 export default function Index() {
-  const data = useLoaderData<typeof loader>();
-
   return (
     <div>
-      <h1>{data.message}</h1>
+      <h1>Set Cookie Example</h1>
+      <Form method="post">
+        <button type="submit">Set Cookie</button>
+      </Form>
     </div>
   );
 }
