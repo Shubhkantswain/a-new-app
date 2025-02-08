@@ -1,34 +1,45 @@
-import { json } from "@remix-run/cloudflare";  // Note: using cloudflare import
-import { Form } from "@remix-run/react";
+import type { LinksFunction } from "@remix-run/cloudflare";
+import {
+  Links,
+  Meta,
+  Outlet,
+  Scripts,
+  ScrollRestoration,
+} from "@remix-run/react";
 
-export const action = async ({ request }: { request: Request }) => {
-  const headers = new Headers();
-  
-  // Create cookie string manually
-  const cookieString = [
-    `myCookie=hello_remix`,
-    `Path=/`,
-    `Max-Age=${60 * 60 * 24}`, // 1 day
-    'HttpOnly',
-    'Secure',
-    'SameSite=Strict'
-  ].join('; ');
+import "./tailwind.css";
 
-  headers.append("Set-Cookie", cookieString);
-  
-  return json(
-    { success: true, message: "Cookie set successfully!" }, 
-    { headers }
-  );
-};
+export const links: LinksFunction = () => [
+  { rel: "preconnect", href: "https://fonts.googleapis.com" },
+  {
+    rel: "preconnect",
+    href: "https://fonts.gstatic.com",
+    crossOrigin: "anonymous",
+  },
+  {
+    rel: "stylesheet",
+    href: "https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap",
+  },
+];
 
-export default function Index() {
+export function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <div>
-      <h1>Set Cookie Example</h1>
-      <Form method="post">
-        <button type="submit">Set Cookie</button>
-      </Form>
-    </div>
+    <html lang="en">
+      <head>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <Meta />
+        <Links />
+      </head>
+      <body>
+        {children}
+        <ScrollRestoration />
+        <Scripts />
+      </body>
+    </html>
   );
+}
+
+export default function App() {
+  return <Outlet />;
 }
